@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strings"
 )
 
 // func sendResponse(res string, conn net.Conn) {
@@ -64,6 +65,12 @@ func main() {
 		}
 
 		str := string(buffer[:length])
+
+		result := strings.Split(str, ",")
+
+		path := result[1]
+
+		fmt.Println(path)
 
 		fmt.Println(conn.RemoteAddr().String())
 		fmt.Printf("Received command %d\t:%s\n", length, str)
