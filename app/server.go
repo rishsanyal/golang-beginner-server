@@ -7,38 +7,38 @@ import (
 	"os"
 )
 
-func sendResponse(res string, conn net.Conn) {
-	conn.Write([]byte(res + "\n"))
-}
+// func sendResponse(res string, conn net.Conn) {
+// 	conn.Write([]byte(res + "\n"))
+// }
 
-func handleRequest(conn net.Conn) {
-	for {
-		log.Println("Handling Request")
-		buffer := make([]byte, 1024)
+// func handleRequest(conn net.Conn) {
+// 	for {
+// 		log.Println("Handling Request")
+// 		buffer := make([]byte, 1024)
 
-		length, err := conn.Read(buffer)
-		if err != nil {
-			log.Panicln(err)
-		}
+// 		length, err := conn.Read(buffer)
+// 		if err != nil {
+// 			log.Panicln(err)
+// 		}
 
-		str := string(buffer[:length])
+// 		str := string(buffer[:length])
 
-		fmt.Println(conn.RemoteAddr().String())
-		fmt.Printf("Received command %d\t:%s\n", length, str)
+// 		fmt.Println(conn.RemoteAddr().String())
+// 		fmt.Printf("Received command %d\t:%s\n", length, str)
 
-		switch str {
-		case "PING\r\n":
-			sendResponse("PONG", conn)
-		case "PUSH\r\n":
-			sendResponse("GOT PUSH", conn)
-		case "QUIT\r\n":
-			sendResponse("Goodbye", conn)
-			conn.Close()
-		default:
-			conn.Write([]byte(fmt.Sprintf("UNKNOWN_COMMAND: %s\n", str)))
-		}
-	}
-}
+// 		switch str {
+// 		case "PING\r\n":
+// 			sendResponse("PONG", conn)
+// 		case "PUSH\r\n":
+// 			sendResponse("GOT PUSH", conn)
+// 		case "QUIT\r\n":
+// 			sendResponse("Goodbye", conn)
+// 			conn.Close()
+// 		default:
+// 			conn.Write([]byte(fmt.Sprintf("UNKNOWN_COMMAND: %s\n", str)))
+// 		}
+// 	}
+// }
 
 func main() {
 	// You can use print statements as follows for debugging, they'll be visible when running tests.
