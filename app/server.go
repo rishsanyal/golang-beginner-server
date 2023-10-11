@@ -70,6 +70,7 @@ func main() {
 
 		path := result[1]
 
+		fmt.Println("Here")
 		fmt.Println(path)
 
 		fmt.Println(conn.RemoteAddr().String())
