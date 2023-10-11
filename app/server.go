@@ -70,12 +70,16 @@ func main() {
 
 		path := result[1]
 
-		fmt.Println("Here")
-		fmt.Println(path)
+		// fmt.Println("Here")
+		// fmt.Println(path)
 
 		fmt.Println(conn.RemoteAddr().String())
 		fmt.Printf("Received command %d\t:%s\n", length, str)
 
-		conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
+		if path == "/" {
+			conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
+		} else {
+			conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
+		}
 	}
 }
