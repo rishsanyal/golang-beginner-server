@@ -66,7 +66,7 @@ func main() {
 
 		str := string(buffer[:length])
 
-		result := strings.Split(str, ",")
+		result := strings.Split(str, " ")
 
 		path := result[1]
 
