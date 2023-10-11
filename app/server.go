@@ -57,6 +57,17 @@ func main() {
 		fmt.Println("Error accepting connection: ", error.Error())
 		os.Exit(1)
 	} else {
-		go handleRequest(conn)
+		buffer := make([]byte, 1024)
+		length, err := conn.Read(buffer)
+		if err != nil {
+			log.Panicln(err)
+		}
+
+		str := string(buffer[:length])
+
+		fmt.Println(conn.RemoteAddr().String())
+		fmt.Printf("Received command %d\t:%s\n", length, str)
+
+		conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 	}
 }
