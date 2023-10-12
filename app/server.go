@@ -37,6 +37,8 @@ func handleConnection(conn net.Conn, directoryLocn string) {
 		log.Panicln(err)
 	}
 
+	log.Println("emergency")
+
 	str := string(buffer[:length])
 
 	result := strings.Split(str, " ")
