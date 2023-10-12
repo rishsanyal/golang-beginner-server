@@ -85,7 +85,7 @@ func main() {
 			conn.Write([]byte(resultStr))
 		case strings.HasPrefix(path, "/user-agent"):
 			userAgentInfo := strings.Split(str, "User-Agent: ")
-			userAgentInfo = strings.Split(userAgentInfo[1], "\n")
+			userAgentInfo = strings.Split(userAgentInfo[1], " \n")
 			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + strconv.Itoa(len(userAgentInfo[0])) + "\r\n\n" + userAgentInfo[0] + "\r\n"
 			conn.Write([]byte(resultStr))
 		default:
