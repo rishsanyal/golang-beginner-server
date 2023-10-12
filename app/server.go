@@ -11,6 +11,7 @@ import (
 )
 
 func handleFileResponse(conn net.Conn, directoryLocn string, requestStr string) string {
+	fmt.Println(requestStr)
 	pathStr := strings.TrimSpace(strings.Split(requestStr, "/files/")[1])
 
 	pathStr = strings.Split(pathStr, " ")[0]
