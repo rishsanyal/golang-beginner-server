@@ -68,10 +68,9 @@ func main() {
 
 		result := strings.Split(str, " ")
 
-		path := result[1]
+		fmt.Println(result)
 
-		// fmt.Println("Here")
-		// fmt.Println(path)
+		path := result[1]
 
 		fmt.Println(conn.RemoteAddr().String())
 		fmt.Printf("Received command %d\t:%s\n", length, str)
@@ -80,14 +79,13 @@ func main() {
 		case path == "/":
 			conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 		case strings.HasPrefix(path, "/echo"):
-			fmt.Printf("HERE ECHO")
+			pathQuery := strings.Split(path, "/")
+			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\n" + pathQuery[1] + "\r\n"
+			conn.Write([]byte(resultStr))
+		default:
+			fmt.Print("deafult test")
+			conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 		}
-
-		// if path == "/" {
-		// 	conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
-		// } else {
-		// 	conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
-		// }
 	}
 
 	conn.Close()
