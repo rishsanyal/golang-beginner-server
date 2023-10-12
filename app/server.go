@@ -85,7 +85,8 @@ func main() {
 			conn.Write([]byte(resultStr))
 		case strings.HasPrefix(path, "/user-agent"):
 			userAgentInfo := strings.Split(str, "User-Agent: ")
-			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + strconv.Itoa(len(userAgentInfo[1])) + "\r\n\n" + userAgentInfo[1] + "\r\n"
+			userAgentInfo = strings.Split(userAgentInfo[1], "\n")
+			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + strconv.Itoa(len(userAgentInfo[0])) + "\r\n\n" + userAgentInfo[0] + "\r\n"
 			conn.Write([]byte(resultStr))
 		default:
 			conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
