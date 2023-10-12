@@ -52,7 +52,7 @@ func handlePostFileResponse(conn net.Conn, directoryLocn string, requestStr stri
 	// resultStr := ""
 
 	fmt.Println("HRERERERE")
-	fmt.Println(requestStr)
+	fmt.Println(fileBodyArr[len(fileBodyArr)-1])
 
 	d1 := []byte(fileBody + "\r\n")
 	err := os.WriteFile((directoryLocn + pathStr), d1, 0644)
