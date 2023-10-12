@@ -76,11 +76,18 @@ func main() {
 		fmt.Println(conn.RemoteAddr().String())
 		fmt.Printf("Received command %d\t:%s\n", length, str)
 
-		if path == "/" {
+		switch {
+		case path == "/":
 			conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
-		} else {
-			conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
+		case strings.HasPrefix(path, "/echo"):
+			fmt.Printf("HERE ECHO")
 		}
+
+		// if path == "/" {
+		// 	conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
+		// } else {
+		// 	conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
+		// }
 	}
 
 	conn.Close()
