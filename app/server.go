@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net"
 	"os"
@@ -9,7 +10,23 @@ import (
 	"strings"
 )
 
-func handleConnection(conn net.Conn) {
+func handleFileResponse(conn net.Conn, directoryLocn string, requestStr string) string {
+	pathStr := strings.TrimSpace(strings.Split(requestStr, "/files/")[0])
+
+	fileStream, err := ioutil.ReadFile(directoryLocn + "/" + pathStr)
+	if err != nil {
+		log.Panicln(err)
+		fmt.Println(err.Error())
+		return err.Error()
+	}
+
+	fmt.Println(fileStream)
+	resultStr := "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: " + strconv.Itoa(len(fileStream)) + "\r\n\n" + string(fileStream) + "\n"
+
+	return resultStr
+}
+
+func handleConnection(conn net.Conn, directoryLocn string) {
 
 	buffer := make([]byte, 1024)
 	length, err := conn.Read(buffer)
@@ -38,6 +55,9 @@ func handleConnection(conn net.Conn) {
 		tempUserAgentInfo := strings.TrimSpace(userAgentInfo[0])
 		resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + strconv.Itoa(len(tempUserAgentInfo)) + "\r\n\n" + tempUserAgentInfo + "\n"
 		conn.Write([]byte(resultStr))
+	case strings.HasPrefix(path, "/files"):
+		resultStr := handleFileResponse(conn, directoryLocn, str)
+		conn.Write([]byte(resultStr))
 	default:
 		conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
 	}
@@ -48,6 +68,17 @@ func handleConnection(conn net.Conn) {
 func main() {
 	// You can use print statements as follows for debugging, they'll be visible when running tests.
 	fmt.Println("Logs from your program will appear here!")
+
+	argsSlice := os.Args[1:]
+	var directoryLocn string = ""
+
+	if argsSlice[0] == "--directory" {
+		directoryLocn = argsSlice[1]
+	} else {
+		directoryLocn = ""
+	}
+
+	fmt.Println(directoryLocn)
 
 	// Uncomment this block to pass the first stage
 
@@ -64,7 +95,7 @@ func main() {
 			fmt.Println("Error accepting connection: ", error.Error())
 			os.Exit(1)
 		} else {
-			go handleConnection(conn)
+			go handleConnection(conn, directoryLocn)
 		}
 
 	}
