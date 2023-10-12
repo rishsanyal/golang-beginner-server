@@ -83,10 +83,10 @@ func main() {
 			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\n" + pathQuery[1] + "\r\n"
 			conn.Write([]byte(resultStr))
 		default:
-			fmt.Print("deafult test")
+			// fmt.Print("deafult test")
 			conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
 		}
 	}
 
-	conn.Close()
+	// conn.Close()
 }
