@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -15,17 +16,27 @@ func handleFileResponse(conn net.Conn, directoryLocn string, requestStr string) 
 	pathStr := strings.TrimSpace(strings.Split(requestStr, "/files/")[1])
 
 	pathStr = strings.Split(pathStr, " ")[0]
-	fmt.Println(pathStr)
+	// fmt.Println(pathStr)
+	resultStr := ""
 
-	fileStream, err := ioutil.ReadFile(directoryLocn + pathStr)
-	if err != nil {
-		log.Panicln(err)
-		fmt.Println(err.Error())
-		return err.Error()
+	if _, err := os.Stat(directoryLocn + pathStr); err == nil {
+
+		fileStream, err := ioutil.ReadFile(directoryLocn + pathStr)
+		if err != nil {
+			log.Panicln(err)
+			fmt.Println(err.Error())
+			return err.Error()
+		}
+
+		// fmt.Println(fileStream)
+		resultStr = "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: " + strconv.Itoa(len(fileStream)) + "\r\n\n" + string(fileStream) + "\r\n"
+	} else if errors.Is(err, os.ErrNotExist) {
+		// path/to/whatever does *not* exist
+		// fmt.Println(fileStream)
+		resultStr = "HTTP/1.1 404 NOT FOUND\r\n\r\n"
+	} else {
+		log.Fatalf("In the Else issue")
 	}
-
-	// fmt.Println(fileStream)
-	resultStr := "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: " + strconv.Itoa(len(fileStream)) + "\r\n\n" + string(fileStream) + "\r\n"
 
 	return resultStr
 }
