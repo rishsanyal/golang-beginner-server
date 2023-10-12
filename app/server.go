@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -68,19 +69,20 @@ func main() {
 
 		result := strings.Split(str, " ")
 
-		fmt.Println(result)
+		// fmt.Println(result)
 
 		path := result[1]
 
-		fmt.Println(conn.RemoteAddr().String())
-		fmt.Printf("Received command %d\t:%s\n", length, str)
+		// fmt.Println(conn.RemoteAddr().String())
+		// fmt.Printf("Received command %d\t:%s\n", length, str)
 
 		switch {
 		case path == "/":
 			conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 		case strings.HasPrefix(path, "/echo"):
 			pathQuery := strings.Split(path, "/echo/")
-			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\n" + pathQuery[0] + "\r\n"
+			fmt.Println(pathQuery[1])
+			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + strconv.Itoa(len(pathQuery[1])) + "\r\n\n" + pathQuery[1] + "\r\n"
 			conn.Write([]byte(resultStr))
 		default:
 			// fmt.Print("deafult test")
