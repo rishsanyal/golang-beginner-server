@@ -47,7 +47,7 @@ func handlePostFileResponse(conn net.Conn, directoryLocn string, requestStr stri
 	pathStr = strings.Split(pathStr, " ")[0]
 	// fmt.Println(pathStr)
 	fileBodyArr := strings.Split(requestStr, "\n")
-	fileBody := fileBodyArr[len(fileBodyArr)-2]
+	fileBody := fileBodyArr[len(fileBodyArr)-1]
 
 	// resultStr := ""
 
