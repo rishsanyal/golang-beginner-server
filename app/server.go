@@ -25,7 +25,7 @@ func handleFileResponse(conn net.Conn, directoryLocn string, requestStr string) 
 	}
 
 	// fmt.Println(fileStream)
-	resultStr := "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: " + strconv.Itoa(len(fileStream)) + "\r\n\n" + string(fileStream) + "\n"
+	resultStr := "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: " + strconv.Itoa(len(fileStream)) + "\r\n\n" + string(fileStream) + "\r\n"
 
 	return resultStr
 }
