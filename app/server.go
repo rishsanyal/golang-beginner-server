@@ -79,8 +79,8 @@ func main() {
 		case path == "/":
 			conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 		case strings.HasPrefix(path, "/echo"):
-			pathQuery := strings.Split(path, "/")
-			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\n" + pathQuery[1] + "\r\n"
+			pathQuery := strings.Split(path, "/echo/")
+			resultStr := "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: 3\r\n\n" + pathQuery[0] + "\r\n"
 			conn.Write([]byte(resultStr))
 		default:
 			// fmt.Print("deafult test")
@@ -88,5 +88,5 @@ func main() {
 		}
 	}
 
-	// conn.Close()
+	conn.Close()
 }
