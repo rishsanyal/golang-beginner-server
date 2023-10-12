@@ -84,7 +84,7 @@ func main() {
 			conn.Write([]byte(resultStr))
 		default:
 			fmt.Print("deafult test")
-			conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
+			conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
 		}
 	}
 
