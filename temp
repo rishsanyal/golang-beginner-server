@@ -1,4 +1,4 @@
 GET /user-agent HTTP/1.1
 Host: localhost:4221
-User-Agent: donkey/yikes
+User-Agent: dumpty/Monkey
 Accept-Encoding: gzip
