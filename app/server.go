@@ -17,14 +17,14 @@ func handleFileResponse(conn net.Conn, directoryLocn string, requestStr string) 
 	pathStr = strings.Split(pathStr, " ")[0]
 	fmt.Println(pathStr)
 
-	fileStream, err := ioutil.ReadFile(directoryLocn + "/" + pathStr)
+	fileStream, err := ioutil.ReadFile(directoryLocn + pathStr)
 	if err != nil {
 		log.Panicln(err)
 		fmt.Println(err.Error())
 		return err.Error()
 	}
 
-	fmt.Println(fileStream)
+	// fmt.Println(fileStream)
 	resultStr := "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: " + strconv.Itoa(len(fileStream)) + "\r\n\n" + string(fileStream) + "\n"
 
 	return resultStr
@@ -78,7 +78,7 @@ func main() {
 	argsSlice := os.Args[1:]
 	var directoryLocn string = ""
 
-	if argsSlice[0] == "--directory" {
+	if len(argsSlice) > 0 && argsSlice[0] == "--directory" {
 		directoryLocn = argsSlice[1]
 	} else {
 		directoryLocn = ""
