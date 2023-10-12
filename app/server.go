@@ -51,6 +51,7 @@ func handlePostFileResponse(conn net.Conn, directoryLocn string, requestStr stri
 
 	// resultStr := ""
 
+	fmt.Println("HRERERERE")
 	fmt.Println(fileBody)
 
 	d1 := []byte(fileBody + "\r\n")
