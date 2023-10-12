@@ -1,0 +1,4 @@
+GET /files/temp HTTP/1.1
+Host: localhost:4221
+User-Agent: scooby/yikes-monkey
+Accept-Encoding: gzip

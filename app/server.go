@@ -11,7 +11,10 @@ import (
 )
 
 func handleFileResponse(conn net.Conn, directoryLocn string, requestStr string) string {
-	pathStr := strings.TrimSpace(strings.Split(requestStr, "/files/")[0])
+	pathStr := strings.TrimSpace(strings.Split(requestStr, "/files/")[1])
+
+	pathStr = strings.Split(pathStr, " ")[0]
+	fmt.Println(pathStr)
 
 	fileStream, err := ioutil.ReadFile(directoryLocn + "/" + pathStr)
 	if err != nil {
