@@ -16,7 +16,6 @@ func handleFileResponse(conn net.Conn, directoryLocn string, requestStr string) 
 	pathStr := strings.TrimSpace(strings.Split(requestStr, "/files/")[1])
 
 	pathStr = strings.Split(pathStr, " ")[0]
-	// fmt.Println(pathStr)
 	resultStr := ""
 
 	if _, err := os.Stat(directoryLocn + pathStr); err == nil {
@@ -28,11 +27,8 @@ func handleFileResponse(conn net.Conn, directoryLocn string, requestStr string) 
 			return err.Error()
 		}
 
-		// fmt.Println(fileStream)
 		resultStr = "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: " + strconv.Itoa(len(fileStream)) + "\r\n\n" + string(fileStream) + "\r\n"
 	} else if errors.Is(err, os.ErrNotExist) {
-		// path/to/whatever does *not* exist
-		// fmt.Println(fileStream)
 		resultStr = "HTTP/1.1 404 NOT FOUND\r\n\r\n"
 	} else {
 		log.Fatalf("In the Else issue")
@@ -45,13 +41,9 @@ func handlePostFileResponse(conn net.Conn, directoryLocn string, requestStr stri
 	pathStr := strings.TrimSpace(strings.Split(requestStr, "/files/")[1])
 
 	pathStr = strings.Split(pathStr, " ")[0]
-	// fmt.Println(pathStr)
 	fileBodyArr := strings.Split(requestStr, "\n")
 	fileBody := fileBodyArr[len(fileBodyArr)-1]
 
-	// resultStr := ""
-
-	fmt.Println("HRERERERE")
 	fmt.Println(fileBodyArr[len(fileBodyArr)-1])
 
 	d1 := []byte(fileBody)
@@ -59,30 +51,9 @@ func handlePostFileResponse(conn net.Conn, directoryLocn string, requestStr stri
 
 	if err != nil {
 		log.Panic(err.Error())
-		// resultStr
 	}
 
 	resultStr := "HTTP/1.1 201 Created\r\n\r\n"
-
-	// if _, err := os.Stat(directoryLocn + pathStr); err == nil {
-
-	// 	fileStream, err := ioutil.ReadFile(directoryLocn + pathStr)
-	// 	if err != nil {
-	// 		log.Panicln(err)
-	// 		fmt.Println(err.Error())
-	// 		return err.Error()
-	// 	}
-
-	// 	// fmt.Println(fileStream)
-	// 	resultStr = "HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: " + strconv.Itoa(len(fileStream)) + "\r\n\n" + string(fileStream) + "\r\n"
-	// } else if errors.Is(err, os.ErrNotExist) {
-	// 	// path/to/whatever does *not* exist
-	// 	// fmt.Println(fileStream)
-	// 	resultStr = "HTTP/1.1 404 NOT FOUND\r\n\r\n"
-	// } else {
-	// 	log.Fatalf("In the Else issue")
-	// }
-
 	return resultStr
 }
 
@@ -97,8 +68,6 @@ func handleConnection(conn net.Conn, directoryLocn string) {
 	str := string(buffer[:length])
 
 	result := strings.Split(str, " ")
-
-	// fmt.Println(result[0])
 
 	requestType := result[0]
 	path := result[1]
@@ -130,9 +99,6 @@ func handleConnection(conn net.Conn, directoryLocn string) {
 }
 
 func main() {
-	// You can use print statements as follows for debugging, they'll be visible when running tests.
-	fmt.Println("Logs from your program will appear here!")
-
 	argsSlice := os.Args[1:]
 	var directoryLocn string = ""
 
@@ -141,10 +107,6 @@ func main() {
 	} else {
 		directoryLocn = ""
 	}
-
-	fmt.Println(directoryLocn)
-
-	// Uncomment this block to pass the first stage
 
 	l, err := net.Listen("tcp", "0.0.0.0:4221")
 	if err != nil {
